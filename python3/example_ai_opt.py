@@ -24,6 +24,7 @@ def optimizeBld (cell):
     g = cell.natural_gold
     if game.turn<60:
         if(g<3 and e <3):
+            BLD_HOME
             #return BLD_FORTRESS
             print("fuck forts")
         if(g>(e+4)):
@@ -33,7 +34,7 @@ def optimizeBld (cell):
     elif game.turn>60 and game.turn<350:
         print("midgame")
         if(g<3 and e <3):
-            return BLD_GOLD_MINE
+            return BLD_HOME
             print("fuck")
         if(g>(e-2)):
             return BLD_GOLD_MINE
@@ -150,51 +151,28 @@ if game.register(username = 'daddythanos' , \
             print(result)
 
         elif game.turn>=60 and game.turn<250:
-            # The command list we will send to the server
             cmd_list = []
-            # The list of cells that we want to attack
             my_attack_list = []
-            # update_turn() is required to get the latest information from the
-            # server. This will halt the program until it receives the updated
-            # information.
-            # After update_turn(), game object will be updated.
             game.update_turn()
 
-            # Check if you exist in the game. If not, wait for the next round.
-            # You may not appear immediately after you join. But you should be
-            # in the game after one round.
             if game.me == None:
                 continue
 
             me = game.me
 
-            # game.me.cells is a dict, where the keys are Position and the values
-            # are MapCell. Get all my cells.
             for cell in game.me.cells.values():
-                # Check the surrounding position
                 for pos in cell.position.get_surrounding_cardinals():
-                    # Get the MapCell object of that position
                     c = game.game_map[pos]
-                    #print("attacking ({},{})".format(c.position.x, c.position.y))
                     friendly=0
                     for p in c.position.get_surrounding_cardinals():
                         if(game.game_map[p].owner==game.uid or game.game_map[p].owner==0):
                             friendly+=1
-                    #print("friends",friendly)
-
-                    # Attack if the cost is less than what I have, and the owner
-                    # is not mine, and I have not attacked it in this round already
-                    # We also try to keep our cell number under 100 to avoid tax
                     if c.attack_cost < me.energy and c.owner != game.uid \
                             and c.position not in my_attack_list \
                             and len(me.cells) < 300\
-                            and len(my_attack_list)<6\
+                            and len(my_attack_list)<15\
                             and friendly>1:
-                        # Add the attack command in the command list
-                        # Subtract the attack cost manually so I can keep track
-                        # of the energy I have.
-                        # Add the position to the attack list so I won't attack
-                        # the same cell
+
                         acost = c.attack_cost*1.1
                         if(friendly<4):
                             acost = acost*1.1
@@ -211,9 +189,7 @@ if game.register(username = 'daddythanos' , \
                         game.me.energy -= acost
                         my_attack_list.append(c.position)
 
-                # If we can upgrade the building, upgrade it.
-                # Notice can_update only checks for upper bound. You need to check
-                # tech_level by yourself.
+
                 if cell.building.can_upgrade and \
                         (cell.building.is_home) and \
                         cell.building.upgrade_gold < me.gold and \
@@ -222,7 +198,6 @@ if game.register(username = 'daddythanos' , \
                     print("We upgraded home at({}, {})".format(cell.position.x, cell.position.y))
                     me.gold   -= cell.building.upgrade_gold
                     me.energy -= cell.building.upgrade_energy
-
 
 
                 if cell.building.can_upgrade and \
