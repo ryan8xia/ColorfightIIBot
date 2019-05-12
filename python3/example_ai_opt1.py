@@ -9,7 +9,7 @@ game = Colorfight()
 
 # Connect to the server. This will connect to the public room. If you want to
 # join other rooms, you need to change the argument
-game.connect(room = 'public')
+game.connect(room = 'public2')
 
 # game.register should return True if succeed.
 # As no duplicate usernames are allowed, a random integer string is appended
@@ -193,7 +193,7 @@ if game.register(username = 'daddythanos' , \
                     if(game.game_map[p].owner==game.uid or game.game_map[p].owner==0):
                         friendly+=1
                 if friendly<2:
-                    #print("We are seld attacking {} with {} energy".format(cell.position ,acost))
+                    print("We are seld attacking {} with {} energy".format(cell.position ,acost))
                     cmd_list.append(game.attack((cell.position), (game.me.energy/25)/(len(my_attack_list)+1)))
                     my_attack_list.append(cell.position)
 
@@ -273,7 +273,7 @@ if game.register(username = 'daddythanos' , \
                     if(game.game_map[p].owner==game.uid or game.game_map[p].owner==0):
                         friendly+=1
                 if friendly<2:
-                    #print("We are seld attacking {} with {} energy".format(cell.position,(game.me.energy/25)/len(my_attack_list)))
+                    print("We are seld attacking {} with {} energy".format(cell.position,(game.me.energy/25)/len(my_attack_list)))
                     cmd_list.append(game.attack(cell.position, (game.me.energy/25)/(len(my_attack_list)+1)))
                     my_attack_list.append(cell.position)
 
