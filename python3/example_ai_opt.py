@@ -80,6 +80,7 @@ if game.register(username = 'thanos' , \
             # game.me.cells is a dict, where the keys are Position and the values
             # are MapCell. Get all my cells.
             for cell in game.me.cells.values():
+                #if(cell.building.is_home):
                 # Check the surrounding position
                 for pos in cell.position.get_surrounding_cardinals():
                     # Get the MapCell object of that position
@@ -194,7 +195,7 @@ if game.register(username = 'thanos' , \
                         friendly+=1
                 if friendly<2:
                     #print("We are seld attacking {} with {} energy".format(cell.position ,acost))
-                    cmd_list.append(game.attack((cell.position), (game.me.energy/25)/(len(my_attack_list)+1)))
+                    cmd_list.append(game.attack((cell.position), (game.me.energy/15)/(len(my_attack_list)+1)))
                     my_attack_list.append(cell.position)
 
 
@@ -274,7 +275,7 @@ if game.register(username = 'thanos' , \
                         friendly+=1
                 if friendly<2:
                     #print("We are seld attacking {} with {} energy".format(cell.position,(game.me.energy/25)/len(my_attack_list)))
-                    cmd_list.append(game.attack(cell.position, (game.me.energy/25)/(len(my_attack_list)+1)))
+                    cmd_list.append(game.attack(cell.position, (game.me.energy/15)/(len(my_attack_list)+1)))
                     my_attack_list.append(cell.position)
 
                 # If we can upgrade the building, upgrade it.
