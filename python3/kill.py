@@ -9,7 +9,7 @@ game = Colorfight()
 
 # Connect to the server. This will connect to the public room. If you want to
 # join other rooms, you need to change the argument
-game.connect(room = 'constant-run1')
+game.connect(room = 'public2')
 
 # game.register should return True if succeed.
 # As no duplicate usernames are allowed, a random integer string is appended
@@ -22,18 +22,32 @@ game.connect(room = 'constant-run1')
 def optimizeBld (cell):
     e = cell.natural_energy
     g = cell.natural_gold
-
-    if(g<3 and e <3):
-        return BLD_FORTRESS
-    if(g>(e+2)):
-        return BLD_GOLD_MINE
+    if game.turn<150:
+        if(g<3 and e <3):
+            return BLD_FORTRESS
+        if(g>(e+4)):
+            return BLD_GOLD_MINE
+        else:
+            return BLD_ENERGY_WELL
+    elif game.turn>150 and game.turn<350:
+        print("midgame")
+        if(g<3 and e <3):
+            return BLD_FORTRESS
+        if(g>(e+2)):
+            return BLD_GOLD_MINE
+        else:
+            return BLD_ENERGY_WELL
     else:
-        return BLD_ENERGY_WELL
+        print("endgame")
+        if(g<3 and e <3):
+            return BLD_FORTRESS
+        if(g>(e-2)):
+            return BLD_GOLD_MINE
+        else:
+            return BLD_ENERGY_WELL
 
-
-
-if game.register(username = 'ExampleAIRX' + str(random.randint(1, 100)), \
-        password = str(int(time.time()))):
+if game.register(username = 'RX' , \
+        password = "rx"):
     # This is the game loop
 
 
