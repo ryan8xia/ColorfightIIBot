@@ -9,7 +9,7 @@ game = Colorfight()
 
 # Connect to the server. This will connect to the public room. If you want to
 # join other rooms, you need to change the argument
-game.connect(room = 'public3')
+game.connect(room = 'public')
 
 # game.register should return True if succeed.
 # As no duplicate usernames are allowed, a random integer string is appended
@@ -24,7 +24,7 @@ def optimizeBld (cell):
     g = cell.natural_gold
     if game.turn<60:
         if(g<3 and e <3):
-            BLD_HOME
+            #return BLD_HOME
             #return BLD_FORTRESS
             print("fuck forts")
         if(g>(e+4)):
@@ -34,7 +34,7 @@ def optimizeBld (cell):
     elif game.turn>60 and game.turn<350:
         print("midgame")
         if(g<3 and e <3):
-            return BLD_HOME
+            return BLD_GOLD_MINE
             print("fuck")
         if(g>(e-2)):
             return BLD_GOLD_MINE
@@ -171,7 +171,7 @@ if game.register(username = 'daddythanos' , \
                             and c.position not in my_attack_list \
                             and len(me.cells) < 300\
                             and len(my_attack_list)<15\
-                            and friendly>1:
+                            and friendly>0:
 
                         acost = c.attack_cost*1.1
                         if(friendly<4):
@@ -188,6 +188,14 @@ if game.register(username = 'daddythanos' , \
                         print("We are attacking ({}, {}) with {} energy".format(pos.x, pos.y,acost))
                         game.me.energy -= acost
                         my_attack_list.append(c.position)
+
+                for p in cell.position.get_surrounding_cardinals():
+                    if(game.game_map[p].owner==game.uid or game.game_map[p].owner==0):
+                        friendly+=1
+                if friendly<2:
+                    print("We are seld attacking {} with {} energy".format(cell.position ,acost))
+                    cmd_list.append(game.attack((cell.position), (game.me.energy/25)/len(my_attack_list)))
+                    my_attack_list.append(cell.position)
 
 
                 if cell.building.can_upgrade and \
@@ -260,6 +268,14 @@ if game.register(username = 'daddythanos' , \
                         print("We are attacking ({}, {}) with {} energy".format(pos.x, pos.y,acost))
                         game.me.energy -= acost
                         my_attack_list.append(c.position)
+
+                for p in cell.position.get_surrounding_cardinals():
+                    if(game.game_map[p].owner==game.uid or game.game_map[p].owner==0):
+                        friendly+=1
+                if friendly<2:
+                    print("We are seld attacking {} with {} energy".format(cell.position,(game.me.energy/25)/len(my_attack_list)))
+                    cmd_list.append(game.attack(cell.position, (game.me.energy/25)/len(my_attack_list)))
+                    my_attack_list.append(cell.position)
 
                 # If we can upgrade the building, upgrade it.
                 # Notice can_update only checks for upper bound. You need to check
