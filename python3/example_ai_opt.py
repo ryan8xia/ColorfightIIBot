@@ -9,7 +9,7 @@ game = Colorfight()
 
 # Connect to the server. This will connect to the public room. If you want to
 # join other rooms, you need to change the argument
-game.connect(room = 'public')
+game.connect(room = 'groupa')
 
 # game.register should return True if succeed.
 # As no duplicate usernames are allowed, a random integer string is appended
@@ -49,7 +49,7 @@ def optimizeBld (cell):
         else:
             return BLD_ENERGY_WELL
 
-if game.register(username = 'daddythanos' , \
+if game.register(username = 'thanos' , \
         password = "fuck"):
     # This is the game loop
 
@@ -57,7 +57,7 @@ if game.register(username = 'daddythanos' , \
 
     while True:
 
-        if game.turn<60:
+        if game.turn<100:
 
             # The command list we will send to the server
             cmd_list = []
@@ -150,7 +150,7 @@ if game.register(username = 'daddythanos' , \
             result = game.send_cmd(cmd_list)
             print(result)
 
-        elif game.turn>=60 and game.turn<250:
+        elif game.turn>=100 and game.turn<300:
             cmd_list = []
             my_attack_list = []
             game.update_turn()
@@ -169,7 +169,7 @@ if game.register(username = 'daddythanos' , \
                             friendly+=1
                     if c.attack_cost < me.energy and c.owner != game.uid \
                             and c.position not in my_attack_list \
-                            and len(me.cells) < 300\
+                            and len(me.cells) < 360\
                             and len(my_attack_list)<15\
                             and friendly>0:
 
@@ -177,9 +177,9 @@ if game.register(username = 'daddythanos' , \
                         if(friendly<4):
                             acost = acost*1.1
                         if(friendly<3):
-                            acost = acost *1.5
+                            acost = acost *1.3
                         if(friendly<2):
-                            acost = acost *2
+                            acost = acost *1.5
 
                         if(c.building.name == "home"):
                             acost = acost*1.5
@@ -231,7 +231,7 @@ if game.register(username = 'daddythanos' , \
             # Send the command list to the server
             result = game.send_cmd(cmd_list)
             print(result)
-        elif game.turn>=250 and game.turn<501:
+        elif game.turn>=300 and game.turn<501:
             cmd_list = []
             my_attack_list = []
             game.update_turn()
@@ -249,7 +249,7 @@ if game.register(username = 'daddythanos' , \
                             friendly+=1
                     if c.attack_cost < me.energy and c.owner != game.uid \
                             and c.position not in my_attack_list \
-                            and len(me.cells) < 300\
+                            and len(me.cells) < 500\
                             and len(my_attack_list)<6\
                             and friendly>1:
 
@@ -257,9 +257,9 @@ if game.register(username = 'daddythanos' , \
                         if(friendly<4):
                             acost = acost*1.1
                         if(friendly<3):
-                            acost = acost *1.5
+                            acost = acost *1.3
                         if(friendly<2):
-                            acost = acost *2
+                            acost = acost *1.5
 
                         if(c.building.name == "home"):
                             acost = acost*1.5
